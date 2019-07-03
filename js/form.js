@@ -8,20 +8,25 @@ function cadastrar(){
     var form = document.querySelector("#form-adiciona");
     var paciente = pegaDadosDoForm(form);
 
-    var pacienteTr = montaTr(paciente);
-
     var erros = validaPaciente(paciente);
     if(erros.length > 0){
         exibeMsgsDeErro(erros);   
         return;
     }
 
-    var tabela = document.querySelector("#tabela-pacientes");
-    tabela.appendChild(pacienteTr);
+    adicionaPacienteNaTabela(paciente); 
 
     form.reset();
     var ul = document.querySelector("#mensagens-erro");
     ul.innerHTML = "";
+
+}
+
+function adicionaPacienteNaTabela(paciente) {
+
+    var pacienteTr = montaTr(paciente);
+    var tabela = document.querySelector("#tabela-pacientes");
+    tabela.appendChild(pacienteTr);
 
 }
 
