@@ -6,18 +6,22 @@ function cadastrar(){
     event.preventDefault();
     
     var form = document.querySelector("#form-adiciona");
-
-    // extrai informações do paciente do form
     var paciente = pegaDadosDoForm(form);
 
-    // cria a tr e a td do paciente
     var pacienteTr = montaTr(paciente);
 
-    // adiciona paciente na tabela
+    var erros = validaPaciente(paciente);
+    if(erros.length > 0){
+        exibeMsgsDeErro(erros);   
+        return;
+    }
+
     var tabela = document.querySelector("#tabela-pacientes");
     tabela.appendChild(pacienteTr);
 
     form.reset();
+    var ul = document.querySelector("#mensagens-erro");
+    ul.innerHTML = "";
 
 }
 
@@ -56,5 +60,50 @@ function montaTd(dado, classe) {
     td.classList.add(classe);
 
     return td;
+
+}
+
+function validaPaciente(paciente) {
+
+    var erros = [];
+
+    if( paciente.nome.length == 0 ) {
+        erros.push("O nome não pode ser em branco!");
+    }
+
+    if( !validaPeso(paciente.peso) ) {
+        erros.push("Peso inválido!");
+    }
+
+    if( paciente.peso.length == 0 ) {
+        erros.push("O peso não pode ser em branco!");
+    }
+
+    if( !validaAltura(paciente.altura) ) {
+        erros.push("Atura inválida!");
+    }
+
+    if( paciente.altura.length == 0 ) {
+        erros.push("A altura não pode ser em branco!");
+    }
+
+    if( paciente.gordura.length == 0 ) {
+        erros.push("A gordura não pode ser em branco!");
+    }
+
+    return erros;
+
+}
+
+function exibeMsgsDeErro(erros) {
+    
+    var ul = document.querySelector("#mensagens-erro");
+    ul.innerHTML = "";
+
+    erros.forEach(function(e) {
+        var li = document.createElement("li");
+        li.textContent = e;
+        ul.appendChild(li);
+    });
 
 }
